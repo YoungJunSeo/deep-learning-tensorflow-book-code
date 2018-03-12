@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import tensorflow as tf
 
 # 플레이스홀더 노드와 add 노드를 정의합니다.

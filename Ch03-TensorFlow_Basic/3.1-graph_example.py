@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import tensorflow as tf
 
 # 그래프 노드를 정의하고 출력합니다.
