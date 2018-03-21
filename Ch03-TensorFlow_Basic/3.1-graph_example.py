@@ -15,8 +15,10 @@ print(sess.run([node1, node2]))
 
 # 두개의 노드의 값을 더하는 연산을 수행하는 node3을 정의합니다.
 # 출력값:
-#node3: Tensor("Add:0", shape=(), dtype=float32)
-#sess.run(node3): 7.0
+# node3: Tensor("Add:0", shape=(), dtype=float32)
+# sess.run(node3): 7.0
 node3 = tf.add(node1, node2)
 print("node3:", node3)
 print("sess.run(node3):", sess.run(node3))
+
+sess.close()
