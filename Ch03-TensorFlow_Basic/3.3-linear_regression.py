@@ -3,12 +3,12 @@
 import tensorflow as tf
 
 # 선형회귀 모델(Wx + b)을 정의합니다.
-W = tf.Variable(tf.random_normal([1]))   
-b = tf.Variable(tf.random_normal([1]))
+W = tf.Variable(tf.random_normal(shape=[1]))   
+b = tf.Variable(tf.random_normal(shape=[1]))
 x = tf.placeholder(tf.float32)
 linear_model = W*x + b
 
-# True Value를 위한 플레이스홀더를 정의합니다.
+# True Value를 입력받기위한 플레이스홀더를 정의합니다.
 y = tf.placeholder(tf.float32)
 
 # 손실 함수를 정의합니다.
@@ -36,3 +36,4 @@ x_test = [3.5, 5, 5.5, 6]
 # 예상되는 참값 : [7, 10, 11, 12]
 print(sess.run(linear_model, feed_dict={x: x_test}))
 
+sess.close()

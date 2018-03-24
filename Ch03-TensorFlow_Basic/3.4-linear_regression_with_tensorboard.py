@@ -3,8 +3,8 @@
 import tensorflow as tf
 
 # 선형회귀 모델(Wx + b)을 정의합니다.
-W = tf.Variable(tf.random_normal([1]), name="W")   
-b = tf.Variable(tf.random_normal([1]), name="b")
+W = tf.Variable(tf.random_normal(shape=[1]), name="W")   
+b = tf.Variable(tf.random_normal(shape=[1]), name="b")
 x = tf.placeholder(tf.float32, name="x")
 linear_model = W*x + b
 
@@ -47,3 +47,4 @@ x_test = [3.5, 5, 5.5, 6]
 # 예상되는 참값 : [7, 10, 11, 12]
 print(sess.run(linear_model, feed_dict={x: x_test}))
 
+sess.close()

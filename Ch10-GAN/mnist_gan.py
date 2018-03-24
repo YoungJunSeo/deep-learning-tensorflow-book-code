@@ -12,7 +12,7 @@ import os
 from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("./mnist/data/", one_hot=True)
 
-# 8x8개의 생성된 MNIST 이미지를 보여주는 plot 함수를 정의합니다.
+# 생성된 MNIST 이미지를 8x8 Grid로 보여주는 plot 함수를 정의합니다.
 def plot(samples):
     fig = plt.figure(figsize=(8, 8))
     gs = gridspec.GridSpec(8, 8)
@@ -34,70 +34,69 @@ learning_rate = 0.001
 
 # 플레이스 홀더를 선언합니다.
 X = tf.placeholder(tf.float32, [None, num_input])               # 인풋 이미지
-z = tf.placeholder(tf.float32, [None, num_latent_variable])     # Latent Variable
+z = tf.placeholder(tf.float32, [None, num_latent_variable])     # 인풋 Latent Variable
+
+# Generator 변수들 설정 
+# 100 -> 128 -> 784
+with tf.variable_scope('generator'):
+    # 히든 레이어 파라미터 
+    G_W1 = tf.Variable(tf.random_normal(shape=[num_latent_variable, num_hidden], stddev=5e-2))   
+    G_b1 = tf.Variable(tf.constant(0.1, shape=[num_hidden]))
+    # 아웃풋 레이어 파라미터
+    G_W2 = tf.Variable(tf.random_normal(shape=[num_hidden, num_input], stddev=5e-2))   
+    G_b2 = tf.Variable(tf.constant(0.1, shape=[num_input]))
+
+# Discriminator 변수들 설정 
+# 784 -> 128 -> 1
+with tf.variable_scope('discriminator'):
+    # 히든 레이어 파라미터
+    D_W1 = tf.Variable(tf.random_normal(shape=[num_input, num_hidden], stddev=5e-2))   
+    D_b1 = tf.Variable(tf.constant(0.1, shape=[num_hidden]))
+    # 아웃풋 레이어 파라미터
+    D_W2 = tf.Variable(tf.random_normal(shape=[num_hidden, 1], stddev=5e-2))   
+    D_b2 = tf.Variable(tf.constant(0.1, shape=[1]))
 
 # Generator를 생성하는 함수를 정의합니다.
 # Inputs:
-#   X : 인풋 이미지
-#   num_hidden : 히든 레이어의 노드 개수
+#   X : 인풋 Latent Variable
 # Output:
 #   generated_mnist_image : 생성된 MNIST 이미지
-def build_generator(X, num_hidden):
-    with tf.variable_scope('generator'):
-        # 히든 레이어 설정
-        W1 = tf.get_variable('G_W1', shape=[num_latent_variable, num_hidden], initializer=tf.random_normal_initializer(stddev=5e-2))
-        b1 = tf.get_variable('G_b1', shape=[num_hidden], initializer=tf.constant_initializer())
-        fc_1 = tf.nn.relu((tf.matmul(X, W1) + b1))
-        # 아웃풋 레이어 설정
-        W2 = tf.get_variable('G_W2', shape=[num_hidden, num_input], initializer=tf.random_normal_initializer(stddev=5e-2))
-        b2 = tf.get_variable('G_b2', shape=[num_input], initializer=tf.constant_initializer())
-        fc_2 = tf.matmul(fc_1, W2) + b2
-        generated_mnist_image = tf.nn.sigmoid(fc_2)
+def build_generator(X):
+    hidden_layer = tf.nn.relu((tf.matmul(X, G_W1) + G_b1))
+    output_layer = tf.matmul(hidden_layer, G_W2) + G_b2
+    generated_mnist_image = tf.nn.sigmoid(output_layer)
 
-        return generated_mnist_image
+    return generated_mnist_image
 
-# Discirimantor를 생성하는 함수를 정의합니다.
+# Discriminator를 생성하는 함수를 정의합니다.
 # Inputs:
 #   X : 인풋 이미지
-#   num_hidden : 히든 레이어의 노드 개수
 # Output:
 #   predicted_value : Discriminator가 판단한 True(1) or Fake(0)
 #   logits : sigmoid를 씌우기전의 출력값
-def build_discriminator(X, num_hidden, reuse=False):
-    with tf.variable_scope('discriminator'):
-        if reuse:
-            tf.get_variable_scope().reuse_variables()
+def build_discriminator(X):
+    hidden_layer = tf.nn.relu((tf.matmul(X, D_W1) + D_b1))
+    logits = tf.matmul(hidden_layer, D_W2) + D_b2
+    predicted_value = tf.nn.sigmoid(logits)
 
-        # 히든 레이어 설정
-        W1 = tf.get_variable('D_W1', shape=[num_input, num_hidden], initializer=tf.random_normal_initializer(stddev=5e-2))
-        b1 = tf.get_variable('D_b1', shape=[num_hidden], initializer=tf.constant_initializer())
-        fc_1 = tf.nn.relu((tf.matmul(X, W1) + b1))
-        # 아웃풋 레이어 설정
-        W2 = tf.get_variable('D_W2', shape=[num_hidden, 1], initializer=tf.random_normal_initializer(stddev=5e-2))
-        b2 = tf.get_variable('D_b2', shape=[1], initializer=tf.constant_initializer())
-        logits = tf.matmul(fc_1, W2) + b2
-        predicted_value = tf.nn.sigmoid(logits)
-
-        return predicted_value, logits
+    return predicted_value, logits
 
 # 생성자(Generator)를 선언합니다.
-G = build_generator(z, num_hidden)
+G = build_generator(z)
 
 # 구분자(Discriminator)를 선언합니다.
-D_real, D_real_logits = build_discriminator(X, num_hidden, reuse=False)
-D_fake, D_fake_logits = build_discriminator(G, num_hidden, reuse=True)
+D_real, D_real_logits = build_discriminator(X)  # D(x)
+D_fake, D_fake_logits = build_discriminator(G)  # D(G(z))
 
-# Discriminator의 손실 함수를 정의한다.
-d_loss_real = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(
-        logits=D_real_logits, labels=tf.ones_like(D_real_logits)))
-d_loss_fake = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(
-        logits=D_fake_logits, labels=tf.zeros_like(D_fake_logits)))
-d_loss = d_loss_real + d_loss_fake
+# Discriminator의 손실 함수를 정의합니다.
+d_loss_real = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=D_real_logits, labels=tf.ones_like(D_real_logits)))    # log(D(x))
+d_loss_fake = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=D_fake_logits, labels=tf.zeros_like(D_fake_logits)))   # log(1-D(G(z)))
+d_loss = d_loss_real + d_loss_fake  # log(D(x)) + log(1-D(G(z)))
 
 # Generator의 손실 함수를 정의합니다.
-g_loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits
-                        (logits=D_fake_logits, labels=tf.ones_like(D_fake_logits)))
+g_loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=D_fake_logits, labels=tf.ones_like(D_fake_logits)))         # log(D(G(z))
 
+# 전체 파라미터를 Discriminator와 관련된 파라미터와 Generator와 관련된 파라미터로 나눕니다.
 tvar = tf.trainable_variables()
 dvar = [var for var in tvar if 'discriminator' in var.name]
 gvar = [var for var in tvar if 'generator' in var.name]
@@ -131,12 +130,10 @@ with tf.Session() as sess:
             plt.close(fig)
 
         # Discriminator 최적화를 수행하고 Discriminator의 손실함수를 return합니다.
-        _, d_loss_print = sess.run([d_train_step, d_loss],
-                                   feed_dict={X: batch_X, z: batch_noise})
+        _, d_loss_print = sess.run([d_train_step, d_loss], feed_dict={X: batch_X, z: batch_noise})
 
         # Generator 최적화를 수행하고 Generator 손실함수를 return합니다.
-        _, g_loss_print = sess.run([g_train_step, g_loss],
-                                   feed_dict={z: batch_noise})
+        _, g_loss_print = sess.run([g_train_step, g_loss], feed_dict={z: batch_noise})
 
         # 100번 반복할때마다 Discriminator의 손실함수와 Generator 손실함수를 출력합니다.
         if i % 100 == 0:
