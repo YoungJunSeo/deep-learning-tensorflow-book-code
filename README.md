@@ -10,6 +10,9 @@ deep learning book code
 - 선형회귀(Linear Regression) 알고리즘 [(Code)](https://github.com/solaris33/deep-learning-tensorflow-book-code/blob/master/Ch03-TensorFlow_Basic/3.3-linear_regression.py)
 - 선형회귀(Linear Regression) 알고리즘 + 텐서보드(TensorBoard) [(Code)](https://github.com/solaris33/deep-learning-tensorflow-book-code/blob/master/Ch03-TensorFlow_Basic/3.4-linear_regression_with_tensorboard.py)
 
+## Chapter 4 - 인공신경망(Artificial Neural Networks) - ANN
+- ANN을 이용한 MNIST 숫자분류기 구현 [(Code)](https://github.com/solaris33/deep-learning-tensorflow-book-code/blob/master/Ch04-ANN/mnist_classification_with_ann.py)
+
 ## Chapter 10 - 생성모델(Generative Model) - GAN(Generative Adversarial Networks)
 - GAN을 이용한 MNIST 데이터 생성 [(Code)](https://github.com/solaris33/deep-learning-tensorflow-book-code/blob/master/Ch10-GAN/mnist_gan.py)
 

@@ -28,7 +28,7 @@ sess.run(tf.global_variables_initializer())
 
 # 경사하강법을 1000번 수행합니다.
 for i in range(1000):
-  sess.run(train_step, {x: x_train, y: y_train})
+  sess.run(train_step, feed_dict={x: x_train, y: y_train})
 
 # 테스트를 위한 입력값을 준비합니다.
 x_test = [3.5, 5, 5.5, 6]

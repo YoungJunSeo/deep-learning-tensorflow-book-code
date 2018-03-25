@@ -35,7 +35,7 @@ tensorboard_writer = tf.summary.FileWriter('./tensorboard_log', sess.graph)
 
 # 경사하강법을 1000번 수행합니다.
 for i in range(1000):
-  sess.run(train_step, {x: x_train, y: y_train})
+  sess.run(train_step, feed_dict={x: x_train, y: y_train})
 
   # 매스텝마다 텐서보드 요약정보값들을 계산해서 지정된 경로('./tensorboard_log')에 저장합니다.
   summary = sess.run(merged, feed_dict={x: x_train, y: y_train})
