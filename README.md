@@ -15,6 +15,7 @@ deep learning book code
 
 ## Chapter 5 - 오토인코더(Autoencoder)
 - 오토인코더를 이용한 MNIST 데이터 재구축 [(Code)](https://github.com/solaris33/deep-learning-tensorflow-book-code/blob/master/Ch05-AutoEncoder/mnist_reconstruction_using_autoencoder.py)
+- 오토인코더 + 소프트맥스 분류기를 이용한 MNIST 숫자 분류기 [(Code)](https://github.com/solaris33/deep-learning-tensorflow-book-code/blob/master/Ch05-AutoEncoder/mnist_classification_using_autoencoder_and_softmax_classifier.py)
 
 
 ## Chapter 10 - 생성모델(Generative Model) - GAN(Generative Adversarial Networks)
