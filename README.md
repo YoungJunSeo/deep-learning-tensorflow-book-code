@@ -18,7 +18,7 @@ deep learning book code
 - 오토인코더 + 소프트맥스 분류기를 이용한 MNIST 숫자 분류기 [(Code)](https://github.com/solaris33/deep-learning-tensorflow-book-code/blob/master/Ch05-AutoEncoder/mnist_classification_using_autoencoder_and_softmax_classifier.py)
 
 ## Chapter 6 - Convolutional Neural Networks(CNN)
-- CNN을 이용한 MNIST 숫자 분류기 구현 [(Code)](https://github.com/solaris33/deep-learning-tensorflow-book-code/blob/master/Ch06-AutoEncoder/mnist_classification_using_cnn.py)
+- CNN을 이용한 MNIST 숫자 분류기 구현 [(Code)](https://github.com/solaris33/deep-learning-tensorflow-book-code/blob/master/Ch06-CNN/mnist_classification_using_cnn.py)
 
 
 ## Chapter 10 - 생성모델(Generative Model) - GAN(Generative Adversarial Networks)
