@@ -21,6 +21,10 @@ deep learning book code
 - CNN을 이용한 MNIST 숫자 분류기 구현 [(Code)](https://github.com/solaris33/deep-learning-tensorflow-book-code/blob/master/Ch06-CNN/mnist_classification_using_cnn.py)
 - CNN을 이용한 CIFAR-10 분류기 구현 [(Code)](https://github.com/solaris33/deep-learning-tensorflow-book-code/blob/master/Ch06-CNN/cifar10_classification_using_cnn.py)
 
+## Chapter 7 - Recurrent Neural Networks(RNN)
+- tf.nn.embedding_lookup을 이용한 Embedding 예제 [(Code)](https://github.com/solaris33/deep-learning-tensorflow-book-code/blob/master/Ch07-RNN/7.4-embedding_example.py)
+
+
 ## Chapter 10 - 생성모델(Generative Model) - GAN(Generative Adversarial Networks)
 - GAN을 이용한 MNIST 데이터 생성 [(Code)](https://github.com/solaris33/deep-learning-tensorflow-book-code/blob/master/Ch10-GAN/mnist_gan.py)
 
