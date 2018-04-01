@@ -69,7 +69,7 @@ train_step = tf.train.AdamOptimizer(1e-4).minimize(loss)
 correct_prediction = tf.equal(tf.argmax(y_pred, 1), tf.argmax(y, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
-# 세션을 열어 실제 학습을 진행한다.
+# 세션을 열어 실제 학습을 진행합니다.
 with tf.Session() as sess:
   # 모든 변수들을 초기화합니다.
   sess.run(tf.global_variables_initializer())
@@ -87,7 +87,3 @@ with tf.Session() as sess:
 
   # 학습이 끝나면 테스트 데이터에 대한 정확도를 출력합니다.
   print("테스트 데이터 정확도: %f" % accuracy.eval(feed_dict={x: mnist.test.images, y: mnist.test.labels}))
-
-
-
-
