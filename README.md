@@ -27,7 +27,7 @@ deep learning book code
 
 ## Chapter 8 - Recurrent Neural Networks(RNN)
 - tf.nn.embedding_lookup을 이용한 Embedding 예제 [(Code)](https://github.com/solaris33/deep-learning-tensorflow-book-code/blob/master/Ch08-RNN/7.4-embedding_example.py)
-
+- Char-RNN을 이용한 텍스트 생성 [(Code)](https://github.com/solaris33/deep-learning-tensorflow-book-code/blob/master/Ch08-RNN/Char-RNN/)
 
 ## Chapter 11 - 생성모델(Generative Model) - GAN(Generative Adversarial Networks)
 - GAN을 이용한 MNIST 데이터 생성 [(Code)](https://github.com/solaris33/deep-learning-tensorflow-book-code/blob/master/Ch11-GAN/mnist_gan.py)
